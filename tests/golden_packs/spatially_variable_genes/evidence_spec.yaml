@@ -1,0 +1,14 @@
+task_type: spatially_variable_genes
+required_evidence:
+  - run_id
+  - task_id
+  - agent_id
+  - start_time_utc
+  - end_time_utc
+  - command
+  - files_available_to_agent
+  - files_produced_by_agent
+  - stdout
+  - stderr
+  - hidden_ground_truth_excluded
+  - evaluator_results

@@ -1,0 +1,17 @@
+{
+  "final_score": 0.75,
+  "metrics": {
+    "accuracy": 0.75,
+    "f1_macro": 0.5,
+    "f1_micro": 0.75,
+    "f1_weighted": 0.75,
+    "macro_f1": 0.5,
+    "report_present": 1.0,
+    "schema_valid": 1.0
+  },
+  "passed": true,
+  "safety_gate_passed": true,
+  "task_id": "char_label_projection",
+  "violations": [],
+  "warnings": []
+}

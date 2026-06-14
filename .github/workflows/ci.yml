@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
+
+      - name: Compile Python files
+        run: python -m compileall -q biopulse baselines scripts tests
+
+      - name: Import package entry points
+        run: |
+          python - <<'PY'
+          import biopulse
+          from biopulse.tasks.registry import get
+
+          assert biopulse.__version__
+          assert get("label_projection").task_type == "label_projection"
+          assert get("svg").task_type == "spatially_variable_genes"
+          PY
+
+      - name: Run hermetic tests
+        run: python -m pytest -q -m "not external_data"
+
+      - name: Run publication guard
+        run: python scripts/publication_guard.py

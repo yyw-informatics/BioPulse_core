@@ -1,0 +1,20 @@
+{
+  "final_score": 0.0,
+  "metrics": {
+    "control_oracle_score": 1.0,
+    "control_random_score": -1.0,
+    "correlation": 0.0,
+    "correlation_scaled": 0.5,
+    "gene_overlap_count": 4.0,
+    "kendall_tau": 0.333333,
+    "report_present": 1.0,
+    "schema_valid": 1.0,
+    "spearman_r": 0.4,
+    "top_50_overlap": 1.0
+  },
+  "passed": true,
+  "safety_gate_passed": true,
+  "task_id": "char_spatially_variable_genes",
+  "violations": [],
+  "warnings": []
+}

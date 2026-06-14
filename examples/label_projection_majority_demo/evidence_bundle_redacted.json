@@ -1,0 +1,63 @@
+{
+  "agent_id": "label_projection_majority",
+  "created_at_utc": "2026-06-13T23:22:27.621598+00:00",
+  "hidden_ground_truth_excluded": true,
+  "process_plane": {
+    "agent_id": "label_projection_majority",
+    "agent_surface": "deterministic_baseline",
+    "benchmark": "benchmark_packs/op_label_projection_mini",
+    "command": "python baselines/label_projection_majority.py",
+    "end_time_utc": "2026-06-13T23:22:26.844472+00:00",
+    "exit_code": 0,
+    "files_available_to_agent": [
+      "input/test.h5ad",
+      "input/train.h5ad",
+      "instruction.md",
+      "output_schema.md"
+    ],
+    "files_produced_by_agent": [
+      "outputs/prediction.h5ad",
+      "outputs/report.md"
+    ],
+    "hidden_ground_truth_excluded": true,
+    "run_id": "readme_lp_majority",
+    "schema_version": "biopulse.run_manifest.v1",
+    "start_time_utc": "2026-06-13T23:22:26.290937+00:00",
+    "stderr_path": "stderr.txt",
+    "stdout_path": "stdout.txt",
+    "task_id": "op_label_projection_mini",
+    "task_type": "label_projection",
+    "wall_time_seconds": 0.5534519579960033,
+    "workspace": "<run_dir>/workspace"
+  },
+  "redactions": [
+    "Rewrote local absolute command paths to a portable command.",
+    "Rewrote local workspace path to <run_dir>/workspace.",
+    "Excluded h5ad input/output artifacts, hidden ground truth, and empty stdout/stderr logs."
+  ],
+  "run_id": "readme_lp_majority",
+  "schema_version": "biopulse.evidence.v1.redacted",
+  "scientific_artifact_plane": {
+    "final_score": 0.147239263803681,
+    "metrics": {
+      "accuracy": 0.147239263803681,
+      "accuracy_scaled": 0.10322580645161293,
+      "control_oracle_score": 1.0,
+      "control_random_score": 0.049079754601226995,
+      "f1_macro": 0.010267379679144387,
+      "f1_micro": 0.147239263803681,
+      "f1_weighted": 0.03779403562875234,
+      "macro_f1": 0.010267379679144387,
+      "report_present": 1.0,
+      "schema_valid": 1.0
+    },
+    "passed": true,
+    "run_id": "readme_lp_majority",
+    "safety_gate_passed": true,
+    "scored_at_utc": "2026-06-13T23:22:26.846065+00:00",
+    "task_id": "op_label_projection_mini",
+    "violations": [],
+    "warnings": []
+  },
+  "task_id": "op_label_projection_mini"
+}

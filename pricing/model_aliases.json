@@ -1,0 +1,4 @@
+{
+  "openrouter/meta-llama/llama-3.3-70b-instruct": "meta-llama/llama-3.3-70b-instruct",
+  "openrouter/qwen/qwen-2.5-coder-32b-instruct": "qwen/qwen-2.5-coder-32b-instruct"
+}

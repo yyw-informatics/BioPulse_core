@@ -1,0 +1,12 @@
+# Output Schema
+
+Required files:
+
+- `outputs/embedding.h5ad`
+- `outputs/report.md`
+
+`embedding.h5ad` must be an AnnData file containing:
+
+- `obsm["X_emb"]`: 2D embedding coordinates, one row per cell in the input order
+- `uns["method_id"]`: method or agent identifier
+- `uns["dataset_id"]` and `uns["normalization_id"]` when available

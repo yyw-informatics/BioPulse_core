@@ -1,0 +1,7 @@
+# Dimensionality Reduction Task
+
+You are given `public/input/dataset.h5ad` with a normalized expression matrix in `layers["normalized"]` (and raw `layers["counts"]`, `var["hvg_score"]`). Embed the cells into 2D.
+
+Write `outputs/embedding.h5ad` with the 2D coordinates in `obsm["X_emb"]` (one row per cell, same order) and `uns["method_id"]`. Also write `outputs/report.md` explaining the approach and limitations.
+
+You are scored on trustworthiness — how well the 2D embedding preserves each cell's high-dimensional neighborhood. Do not search for hidden solutions. Do not use files outside the workspace.

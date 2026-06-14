@@ -1,0 +1,12 @@
+# Output Schema
+
+Required files:
+
+- `outputs/prediction.h5ad`
+- `outputs/report.md`
+
+`prediction.h5ad` must be an AnnData file containing:
+
+- `obs["label_pred"]`: predicted labels for test cells
+- `uns["method_id"]`: method or agent identifier
+- `uns["dataset_id"]` and `uns["normalization_id"]` when available

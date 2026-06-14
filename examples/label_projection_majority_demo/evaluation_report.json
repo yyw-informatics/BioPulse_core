@@ -1,0 +1,61 @@
+{
+  "agent_process_plane": {
+    "agent_id": "label_projection_majority",
+    "agent_surface": "deterministic_baseline",
+    "code_error_rate": 0.0,
+    "command": "python baselines/label_projection_majority.py",
+    "cost_usd": 0.0,
+    "exit_code": 0,
+    "files_available_to_agent": [
+      "input/test.h5ad",
+      "input/train.h5ad",
+      "instruction.md",
+      "output_schema.md"
+    ],
+    "files_produced_by_agent": [
+      "outputs/prediction.h5ad",
+      "outputs/report.md"
+    ],
+    "hidden_ground_truth_excluded": true,
+    "measurement_method": "none",
+    "n_blocked_fetches": 0,
+    "n_code_execs": 0,
+    "n_model_calls": 0,
+    "n_web_fetches": 0,
+    "total_tokens": 0,
+    "wall_time_seconds": 0.5534519579960033
+  },
+  "filled_values": [
+    "Set deterministic-baseline model/code/network event counts to 0 because no process_events.jsonl was emitted.",
+    "Set token and cost fields to 0 because the baseline used no LLM.",
+    "Set measurement_method to none for the no-LLM baseline."
+  ],
+  "redactions": [
+    "Local absolute command paths removed.",
+    "Workspace path generalized to <run_dir>/workspace in the evidence bundle.",
+    "Large h5ad files and hidden ground truth excluded."
+  ],
+  "run_id": "readme_lp_majority",
+  "schema_version": "biopulse.example_evaluation_report.v1",
+  "scientific_artifact_plane": {
+    "final_score": 0.147239263803681,
+    "metrics": {
+      "accuracy": 0.147239263803681,
+      "accuracy_scaled": 0.10322580645161293,
+      "control_oracle_score": 1.0,
+      "control_random_score": 0.049079754601226995,
+      "f1_macro": 0.010267379679144387,
+      "f1_micro": 0.147239263803681,
+      "f1_weighted": 0.03779403562875234,
+      "macro_f1": 0.010267379679144387,
+      "report_present": 1.0,
+      "schema_valid": 1.0
+    },
+    "passed": true,
+    "safety_gate_passed": true,
+    "violations": [],
+    "warnings": []
+  },
+  "source_run_id": "readme_lp_majority",
+  "task_id": "op_label_projection_mini"
+}

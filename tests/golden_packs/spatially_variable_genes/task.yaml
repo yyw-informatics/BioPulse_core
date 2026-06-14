@@ -1,0 +1,9 @@
+task_id: op_svg_mini
+task_type: spatially_variable_genes
+title: Open Problems spatially variable genes mini benchmark
+source: openproblems
+is_openproblems: true
+source_dataset_id: GOLDEN_DATASET
+public_dir: public
+hidden_dir: hidden/ground_truth
+metrics_dir: metrics

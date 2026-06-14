@@ -1,0 +1,12 @@
+# Output Schema
+
+Required files:
+
+- `outputs/output.h5ad`
+- `outputs/report.md`
+
+`output.h5ad` must be an AnnData file containing:
+
+- `var["pred_spatial_var_score"]`: numeric spatial variability score for each gene
+- `uns["method_id"]`: method or agent identifier
+- `uns["dataset_id"]` when available

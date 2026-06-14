@@ -1,0 +1,7 @@
+# Denoising Task
+
+You are given `public/input/train.h5ad`, a single-cell count matrix in `layers["counts"]` that is a noisy molecular sub-sample. Produce a denoised matrix of the SAME cells and genes (same shape, same order).
+
+Write `outputs/denoised.h5ad` with the denoised counts in `layers["denoised"]` and `uns["method_id"]`. Also write `outputs/report.md` explaining the approach and limitations.
+
+You are scored by mean squared error against a held-out molecular split (after library-size normalization and log1p), so recovering true expression structure matters more than copying the noisy input. Do not search for hidden solutions. Do not use files outside the workspace.

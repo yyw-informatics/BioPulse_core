@@ -1,0 +1,17 @@
+{
+  "final_score": 0.986661,
+  "metrics": {
+    "accuracy": 0.980392,
+    "macro_f1": 0.986661,
+    "n_rare_classes": 1.0,
+    "rare_class_f1": 1.0,
+    "rare_class_recall": 1.0,
+    "report_present": 1.0,
+    "schema_valid": 1.0
+  },
+  "passed": true,
+  "safety_gate_passed": true,
+  "task_id": "char_rare_celltype",
+  "violations": [],
+  "warnings": []
+}

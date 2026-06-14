@@ -1,0 +1,14 @@
+{
+  "final_score": 0.0,
+  "metrics": {
+    "report_present": 1.0,
+    "schema_valid": 0.0
+  },
+  "passed": false,
+  "safety_gate_passed": true,
+  "task_id": "char_dimensionality_reduction",
+  "violations": [
+    "obsm['X_emb'] must be 2D with >=2 columns, got shape (10, 1)"
+  ],
+  "warnings": []
+}

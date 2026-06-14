@@ -1,0 +1,6 @@
+primary_metric: accuracy
+required_output: outputs/prediction.h5ad
+required_report: outputs/report.md
+forbidden_names:
+  - hidden
+  - solution.h5ad

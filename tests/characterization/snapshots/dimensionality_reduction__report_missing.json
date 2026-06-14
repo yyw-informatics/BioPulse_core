@@ -1,0 +1,18 @@
+{
+  "final_score": 0.457143,
+  "metrics": {
+    "emb_dims": 2.0,
+    "n_cells": 10.0,
+    "report_present": 0.0,
+    "schema_valid": 1.0,
+    "silhouette_celltype_diagnostic": 0.059467,
+    "trustworthiness": 0.457143
+  },
+  "passed": false,
+  "safety_gate_passed": true,
+  "task_id": "char_dimensionality_reduction",
+  "violations": [
+    "Missing required report: outputs/report.md"
+  ],
+  "warnings": []
+}

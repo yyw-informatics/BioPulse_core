@@ -1,0 +1,7 @@
+# Spatially Variable Genes Task
+
+You are given a spatial transcriptomics dataset. Assign a spatial variability score to each gene.
+
+Write `outputs/output.h5ad` with `var["pred_spatial_var_score"]` for every gene and `uns["method_id"]`. Also write `outputs/report.md` explaining the approach and limitations.
+
+Do not search for hidden solutions. Do not use files outside the workspace.

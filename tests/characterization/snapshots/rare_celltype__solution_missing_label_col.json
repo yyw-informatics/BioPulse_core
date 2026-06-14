@@ -1,0 +1,14 @@
+{
+  "final_score": 0.0,
+  "metrics": {
+    "report_present": 1.0,
+    "schema_valid": 0.0
+  },
+  "passed": false,
+  "safety_gate_passed": true,
+  "task_id": "char_rare_celltype",
+  "violations": [
+    "solution.h5ad missing obs['label'] or obs['cell_type']"
+  ],
+  "warnings": []
+}

@@ -1,0 +1,9 @@
+task_id: op_denoising_mini
+task_type: denoising
+title: Open Problems denoising mini benchmark
+source: openproblems
+is_openproblems: true
+source_dataset_id: GOLDEN_DATASET
+public_dir: public
+hidden_dir: hidden/ground_truth
+metrics_dir: metrics

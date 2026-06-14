@@ -1,0 +1,6 @@
+primary_metric: mse
+required_output: outputs/denoised.h5ad
+required_report: outputs/report.md
+forbidden_names:
+  - hidden
+  - solution.h5ad

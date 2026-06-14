@@ -1,0 +1,63 @@
+{
+  "schema_version": "biopulse.price_table.v1",
+  "pricing_version": "2026-06-10",
+  "currency": "USD",
+  "note": "Per-1k-token prices fetched via the shared `modelprices` tool (LiteLLM + OpenRouter sources): `make fetch-prices ARGS=--write` (needs `pip install -e .[pricing]`). `pricing_fetched_at` / `pricing_sources` record freshness. Cost is advisory, never gates pass/fail. 'none/deterministic' is the non-LLM-baseline sentinel and is always zero; locally-served models (ollama/*, local/*) are $0 (compute on your hardware) and are left unpriced. Aliases for our `openrouter/<id>` routing-prefixed keys live in `pricing/model_aliases.json`. To add a model, add its id under prices (or pass it to modelprices) and re-run; modelprices auto-matches dash-vs-dot version naming.",
+  "prices": {
+    "none/deterministic": {
+      "price_per_1k_input": 0.0,
+      "price_per_1k_output": 0.0
+    },
+    "anthropic/claude-opus-4-8": {
+      "price_per_1k_input": 0.005,
+      "price_per_1k_output": 0.025
+    },
+    "anthropic/claude-sonnet-4-6": {
+      "price_per_1k_input": 0.003,
+      "price_per_1k_output": 0.015
+    },
+    "anthropic/claude-haiku-4-5": {
+      "price_per_1k_input": 0.001,
+      "price_per_1k_output": 0.005
+    },
+    "openai/gpt-4o-mini": {
+      "price_per_1k_input": 0.00015,
+      "price_per_1k_output": 0.0006
+    },
+    "openai/gpt-4o": {
+      "price_per_1k_input": 0.0025,
+      "price_per_1k_output": 0.01
+    },
+    "openrouter/meta-llama/llama-3.3-70b-instruct": {
+      "price_per_1k_input": 0.0001,
+      "price_per_1k_output": 0.00032
+    },
+    "openrouter/qwen/qwen-2.5-coder-32b-instruct": {
+      "price_per_1k_input": 0.00066,
+      "price_per_1k_output": 0.001
+    },
+    "ollama/qwen2.5-coder": {
+      "price_per_1k_input": 0.0,
+      "price_per_1k_output": 0.0
+    },
+    "openai/gpt-5.5": {
+      "price_per_1k_input": 0.005,
+      "price_per_1k_output": 0.03
+    },
+    "deepseek/deepseek-chat": {
+      "price_per_1k_input": 0.00027,
+      "price_per_1k_output": 0.0011
+    },
+    "deepseek/deepseek-reasoner": {
+      "price_per_1k_input": 0.00055,
+      "price_per_1k_output": 0.00219
+    }
+  },
+  "pricing_fetched_at": "2026-06-11T03:03:01Z",
+  "pricing_sources": {
+    "openrouter": {
+      "fetched_at": "2026-06-11T03:03:01Z",
+      "source_updated_at": null
+    }
+  }
+}

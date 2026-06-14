@@ -1,0 +1,16 @@
+{
+  "final_score": -0.028624,
+  "metrics": {
+    "mse": 0.028624,
+    "n_cells": 2.0,
+    "n_genes": 3.0,
+    "poisson": -2.436221,
+    "report_present": 1.0,
+    "schema_valid": 1.0
+  },
+  "passed": true,
+  "safety_gate_passed": true,
+  "task_id": "char_denoising",
+  "violations": [],
+  "warnings": []
+}

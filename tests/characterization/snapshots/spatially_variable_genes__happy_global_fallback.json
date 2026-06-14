@@ -1,0 +1,18 @@
+{
+  "final_score": 0.333333,
+  "metrics": {
+    "gene_overlap_count": 4.0,
+    "kendall_tau": 0.333333,
+    "report_present": 1.0,
+    "schema_valid": 1.0,
+    "spearman_r": 0.4,
+    "top_50_overlap": 1.0
+  },
+  "passed": true,
+  "safety_gate_passed": true,
+  "task_id": "char_spatially_variable_genes",
+  "violations": [],
+  "warnings": [
+    "solution lacks var['orig_feature_name']; final_score is the global Kendall tau, not OP's grouped correlation"
+  ]
+}

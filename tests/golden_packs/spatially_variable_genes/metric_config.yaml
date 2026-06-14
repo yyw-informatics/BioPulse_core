@@ -1,0 +1,7 @@
+primary_metric: kendall_tau
+fallback_metric: spearman_r
+required_output: outputs/output.h5ad
+required_report: outputs/report.md
+forbidden_names:
+  - hidden
+  - solution.h5ad

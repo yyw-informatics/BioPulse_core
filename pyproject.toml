@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "biopulse-core"
+version = "0.1.0"
+description = "BioPulse evaluation core: Open Problems task registry, faithful scorers, and benchmark-pack builder (agent-framework-agnostic)."
+authors = [{ name = "Yuanyuan Wang" }]
+requires-python = ">=3.12"
+dependencies = [
+  "anndata>=0.10",
+  "h5py>=3.10",
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "pyyaml>=6",
+  "scipy>=1.12",
+  "scikit-learn>=1.4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["biopulse*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+  "external_data: requires vendored Open Problems data or built benchmark packs; excluded from public CI",
+]

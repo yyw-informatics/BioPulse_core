@@ -1,0 +1,24 @@
+Label Projection Majority Demo
+
+This directory contains a lightweight, redacted example result exported from
+runs/readme_lp_majority.
+
+The source run evaluated the deterministic label_projection_majority baseline on
+op_label_projection_mini. Large benchmark inputs, predictions, workspaces, stdout/stderr logs, and
+hidden ground truth are excluded from this example. Local absolute paths were rewritten to portable
+commands/paths.
+
+Included files:
+- evaluation_report.json: reviewer-friendly two-plane report with scientific-artifact metrics and
+  agent-process/provenance metrics.
+- evaluator_results.json: scorer output from the Scientific Artifact Plane.
+- evidence_bundle_redacted.json: redacted evidence bundle preserving the relationship between the two
+  evaluation planes.
+
+Reproduce:
+
+python -m biopulse.runner.run_baseline \
+  --benchmark benchmark_packs/op_label_projection_mini \
+  --baseline label_projection_majority \
+  --run-id readme_lp_majority \
+  --overwrite

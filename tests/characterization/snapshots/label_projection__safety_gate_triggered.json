@@ -1,0 +1,19 @@
+{
+  "final_score": 1.0,
+  "metrics": {
+    "accuracy": 1.0,
+    "f1_macro": 1.0,
+    "f1_micro": 1.0,
+    "f1_weighted": 1.0,
+    "macro_f1": 1.0,
+    "report_present": 1.0,
+    "schema_valid": 1.0
+  },
+  "passed": false,
+  "safety_gate_passed": false,
+  "task_id": "char_label_projection",
+  "violations": [
+    "Forbidden solution file in workspace: solution.h5ad"
+  ],
+  "warnings": []
+}

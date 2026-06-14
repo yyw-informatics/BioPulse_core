@@ -1,0 +1,14 @@
+{
+  "final_score": 0.0,
+  "metrics": {
+    "report_present": 1.0,
+    "schema_valid": 0.0
+  },
+  "passed": false,
+  "safety_gate_passed": true,
+  "task_id": "char_label_projection",
+  "violations": [
+    "prediction.h5ad missing uns['method_id']"
+  ],
+  "warnings": []
+}

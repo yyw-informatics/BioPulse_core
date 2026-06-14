@@ -1,0 +1,9 @@
+task_id: op_label_projection_mini
+task_type: label_projection
+title: Open Problems label projection mini benchmark
+source: openproblems
+is_openproblems: true
+source_dataset_id: GOLDEN_DATASET
+public_dir: public
+hidden_dir: hidden/ground_truth
+metrics_dir: metrics

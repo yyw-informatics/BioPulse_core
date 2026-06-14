@@ -1,0 +1,6 @@
+primary_metric: trustworthiness
+required_output: outputs/embedding.h5ad
+required_report: outputs/report.md
+forbidden_names:
+  - hidden
+  - solution.h5ad

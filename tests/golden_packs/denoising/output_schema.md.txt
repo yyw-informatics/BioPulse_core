@@ -1,0 +1,12 @@
+# Output Schema
+
+Required files:
+
+- `outputs/denoised.h5ad`
+- `outputs/report.md`
+
+`denoised.h5ad` must be an AnnData file with the SAME shape as the input, containing:
+
+- `layers["denoised"]`: denoised counts for every cell and gene
+- `uns["method_id"]`: method or agent identifier
+- `uns["dataset_id"]` when available

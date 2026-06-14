@@ -1,0 +1,7 @@
+# Label Projection Task
+
+You are given a labeled single-cell training dataset and an unlabeled test dataset. Predict labels for every test cell.
+
+Write `outputs/prediction.h5ad` with `obs["label_pred"]` for every test cell and `uns["method_id"]`. Also write `outputs/report.md` explaining the approach and limitations.
+
+Do not search for hidden solutions. Do not use files outside the workspace.

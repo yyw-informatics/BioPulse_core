@@ -1,0 +1,9 @@
+task_id: op_dimensionality_reduction_mini
+task_type: dimensionality_reduction
+title: Open Problems dimensionality reduction mini benchmark
+source: openproblems
+is_openproblems: true
+source_dataset_id: GOLDEN_DATASET
+public_dir: public
+hidden_dir: hidden/ground_truth
+metrics_dir: metrics
