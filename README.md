@@ -1,6 +1,6 @@
 # biopulse-core
 
-[![CI](https://github.com/yyw-informatics/BioPulse_core/actions/workflows/ci.yml/badge.svg)](https://github.com/yyw-informatics/BioPulse_core/actions/workflows/ci.yml)
+[![CI](https://github.com/yyw-informatics/BioPulse_core/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/yyw-informatics/BioPulse_core/actions/workflows/ci.yml)
 
 `biopulse-core` is the evaluation core for BioPulse: a small, framework-agnostic library for scoring AI
 agents on single-cell bioinformatics tasks derived from [Open Problems](https://openproblems.bio).
@@ -36,9 +36,12 @@ metric driver that tries to infer how a task should be graded from field names.
 ## Install
 
 ```bash
-pip install -e .
-pip install -e ".[dev]"
+git clone https://github.com/yyw-informatics/BioPulse_core.git
+cd BioPulse_core
+python -m pip install -e ".[dev]"
 ```
+
+The package name is `biopulse-core`; the import package is `biopulse`.
 
 ## Basic Use
 
