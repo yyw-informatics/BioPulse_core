@@ -107,8 +107,7 @@ def test_svg_perfect_ranking_beats_random(tmp_path: Path) -> None:
 
 @pytest.mark.external_data
 def test_label_projection_reproduces_op_golden(tmp_path: Path) -> None:
-    """Our LP scorer must reproduce OP's shipped accuracy (0.4969) and OP's headline weighted F1
-    (0.4858) on cxg_immune_cell_atlas, computed sklearn's way like task_label_projection/src/metrics."""
+    """The label-projection scorer reproduces Open Problems' published accuracy and weighted F1."""
     import shutil
 
     pack = Path("benchmark_packs/op_label_projection_mini")
@@ -130,8 +129,7 @@ def test_label_projection_reproduces_op_golden(tmp_path: Path) -> None:
 
 @pytest.mark.external_data
 def test_svg_reproduces_op_golden_correlation(tmp_path: Path) -> None:
-    """Our SVG scorer must reproduce OP's shipped golden `correlation` (0.7225 on mouse_brain_coronal),
-    by mirroring OP's grouped-by-orig_feature_name Kendall tau — not a global tau (which gives 0.58)."""
+    """The SVG scorer reproduces Open Problems' grouped Kendall-tau correlation."""
     import shutil
 
     pack = Path("benchmark_packs/op_svg_mini")
@@ -205,7 +203,7 @@ def test_safety_gate_flags_hidden_solution_and_passes_clean(tmp_path: Path) -> N
     ok, violations = scan_workspace_safety(ws)
     assert ok and not violations  # clean workspace passes
 
-    # An agent that smuggled the answer key in is caught.
+    # A forbidden answer artifact in the workspace is caught.
     (ws / "solution.h5ad").write_bytes(b"")
     (ws / "hidden").mkdir()
     bad_ok, bad_violations = scan_workspace_safety(ws)

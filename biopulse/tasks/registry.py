@@ -1,14 +1,11 @@
 """Task registry: one ``TaskRecord`` per ``task_type``.
 
-Each record is the single source of truth for task metadata that would otherwise be scattered across
-``task_type ==`` branches: pack identity, public input files, output and solution contracts, scorer,
-Open Problems source discovery, control generation, and the task-facing instruction/schema/config text.
-Consumers (``run_baseline.score_run``, ``validate_pack``, ``pack_writer``,
-``openproblems_adapter.discover_task``, ``controls.write_controls``) perform a registry lookup instead
-of branching on task type.
+Each record centralizes task metadata: pack identity, public input files, output and solution
+contracts, scorer, Open Problems source discovery, control generation, and the task-facing
+instruction/schema/config text. Consumers perform a registry lookup instead of branching on task type.
 
-Invariant: the registry stores scorer/discovery/control functions as callables and never introspects
-their internals. Scoring remains task-specific rather than being routed through a generic metric driver.
+The registry stores scorer, discovery, and control functions as callables. Scoring remains
+task-specific rather than being routed through a generic metric driver.
 """
 
 from __future__ import annotations
@@ -36,7 +33,7 @@ class FileSpec:
     """File contract: file name plus the AnnData fields the scorer requires.
 
     ``required`` is keyed by AnnData slot (``obs``, ``var``, ``uns``, ``layers``, ``obsm``). The scorers
-    enforce these contracts, and the drift-guard tests keep the registry and scorer checks aligned.
+    enforce these contracts, and tests keep the registry and scorer checks aligned.
     Public input files that are read-only for the agent carry an empty requirement map.
     """
 
@@ -66,7 +63,7 @@ class TaskRecord:
     is_openproblems: bool = True
 
 
-# --- per-task prose (pinned by tests/test_pack_writer_golden.py) ------------------------------------
+# Per-task prose used in generated benchmark packs.
 
 _LABEL_PROJECTION_INSTRUCTION = """# Label Projection Task\n\nYou are given a labeled single-cell training dataset and an unlabeled test dataset. Predict labels for every test cell.\n\nWrite `outputs/prediction.h5ad` with `obs[\"label_pred\"]` for every test cell and `uns[\"method_id\"]`. Also write `outputs/report.md` explaining the approach and limitations.\n\nDo not search for hidden solutions. Do not use files outside the workspace.\n"""
 _SVG_INSTRUCTION = """# Spatially Variable Genes Task\n\nYou are given a spatial transcriptomics dataset. Assign a spatial variability score to each gene.\n\nWrite `outputs/output.h5ad` with `var[\"pred_spatial_var_score\"]` for every gene and `uns[\"method_id\"]`. Also write `outputs/report.md` explaining the approach and limitations.\n\nDo not search for hidden solutions. Do not use files outside the workspace.\n"""
@@ -76,7 +73,7 @@ _DIMRED_INSTRUCTION = """# Dimensionality Reduction Task\n\nYou are given `publi
 _LABEL_PROJECTION_SCHEMA = """# Output Schema\n\nRequired files:\n\n- `outputs/prediction.h5ad`\n- `outputs/report.md`\n\n`prediction.h5ad` must be an AnnData file containing:\n\n- `obs[\"label_pred\"]`: predicted labels for test cells\n- `uns[\"method_id\"]`: method or agent identifier\n- `uns[\"dataset_id\"]` and `uns[\"normalization_id\"]` when available\n"""
 
 # rare_celltype is derived from label_projection (same I/O) but graded on macro-F1 to emphasize rare
-# populations. build_rare_celltype_pack.py reads this record, keeping the registry as the source of truth.
+# populations. build_rare_celltype_pack.py reads this record when generating the derived pack.
 _RARE_CELLTYPE_INSTRUCTION = """# Rare Cell-Type Annotation Task
 
 You are given a labeled single-cell training dataset and an unlabeled test dataset. Predict a

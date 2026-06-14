@@ -1,9 +1,7 @@
-"""Registry guards (formerly pack_writer guards).
+"""Registry guards for generated task text.
 
-Pins the behavior that replaced the latent fallthrough bug: per-task content (instruction / output_schema
-/ metric_config) used to live in pack_writer functions that fell through to the dimred default for an
-unknown task_type. That content now lives in the task registry, one record per task, and an unknown
-task_type raises instead of silently producing the wrong pack.
+Each Open Problems task owns distinct instructions, output schema text, and metric configuration in the
+task registry. Unknown task types must raise clearly instead of resolving to a default task.
 """
 
 from __future__ import annotations
@@ -20,7 +18,7 @@ PROSE_FIELDS = ("instruction", "output_schema", "metric_config")
 def test_records_have_distinct_prose_for_op_tasks(field: str) -> None:
     values = [getattr(get(task_type), field) for task_type in OP_TASKS]
     assert all(values), f"every OP task must define {field}"
-    assert len(set(values)) == len(OP_TASKS), f"{field} must be distinct per task (no fallthrough)"
+    assert len(set(values)) == len(OP_TASKS), f"{field} must be distinct per task"
 
 
 def test_get_raises_on_unknown_task_type() -> None:

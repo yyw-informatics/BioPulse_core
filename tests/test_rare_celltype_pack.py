@@ -1,9 +1,8 @@
-"""build_rare_celltype_pack must consume the registry, not a parallel copy.
+"""Tests for deriving the rare cell-type benchmark pack from the task registry.
 
 rare_celltype is derived (copytree of the label_projection pack) but its instruction / metric_config /
-labels are owned by the task registry. A prior bug: the derive-script inherited label_projection's
-metric_config (primary_metric: accuracy) while the scorer grades on macro_f1. This pins that the built
-pack's registry-owned files come from the registry record, hermetically (no real pack needed).
+labels are owned by the task registry. This test uses a minimal source pack so the derived pack can be
+validated without requiring benchmark data.
 """
 
 from __future__ import annotations
@@ -25,7 +24,7 @@ def _load_script():
 
 def _fake_label_projection_pack(packs_dir: Path) -> None:
     """A minimal stand-in for the label_projection pack: enough for copytree, with a metric_config that
-    says 'accuracy' so we can prove the derive-script overwrites it with the registry's macro_f1."""
+    says 'accuracy' so the test can verify it is replaced with the registry's macro_f1."""
     pack = packs_dir / "op_label_projection_mini"
     (pack / "public" / "input").mkdir(parents=True)
     (pack / "metrics").mkdir(parents=True)
@@ -45,18 +44,18 @@ def test_rare_pack_is_built_from_the_registry(tmp_path: Path) -> None:
     record = get("rare_celltype")
     dst = tmp_path / "op_rare_celltype_mini"
 
-    # metric_config came from the registry (macro_f1), NOT the inherited label_projection 'accuracy'
+    # The derived pack uses the rare-cell-type metric configuration from the registry.
     metric_config = (dst / "metrics" / "metric_config.yaml").read_text(encoding="utf-8")
     assert metric_config == record.metric_config
     assert "primary_metric: macro_f1" in metric_config
     assert "accuracy" not in metric_config
 
-    # instruction came from the registry (the rare-specific, macro-F1 text)
+    # The derived pack uses the rare-cell-type instruction from the registry.
     instruction = (dst / "public" / "instruction.md").read_text(encoding="utf-8")
     assert instruction == record.instruction
     assert "macro-F1" in instruction
 
-    # task.yaml derives its identity fields from the record (no drift) + keeps the derived-task markers
+    # task.yaml derives its identity fields from the record and keeps the derived-task markers.
     task_yaml = (dst / "task.yaml").read_text(encoding="utf-8")
     assert f"title: {record.title}" in task_yaml
     assert "is_openproblems: false" in task_yaml

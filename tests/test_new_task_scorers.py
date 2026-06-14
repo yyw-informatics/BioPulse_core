@@ -1,9 +1,7 @@
-"""Scorer tests for the two added Open Problems tasks: denoising and dimensionality_reduction.
+"""Scorer tests for denoising and dimensionality-reduction tasks.
 
-The denoising tests pin a real bug that was caught during bring-up: a denoised matrix with negative
-values (any PCA/linear reconstruction) made log1p produce NaN, which the number-cleaner turned into
-0.0 — i.e. a *perfect* MSE that also passed. A non-finite score must never masquerade as the best
-possible result.
+The denoising tests cover non-finite metric handling: negative reconstructed values can make log1p
+produce NaN, and those scores must fail rather than being treated as valid zero-error results.
 """
 
 from __future__ import annotations
@@ -59,12 +57,12 @@ def test_denoising_negative_values_do_not_score_as_perfect(tmp_path: Path) -> No
     pack = _denoising_pack(tmp_path, test_counts)
 
     run_dir = _run_with_outputs(tmp_path)
-    # A reconstruction full of negatives — the shape that triggered the original fake-perfect bug.
+    # A reconstruction full of negatives should fail during metric validation.
     denoised = np.full((12, 8), -1.0)
     _write_denoised(run_dir, denoised)
 
     result = score_denoising(pack, run_dir)
-    # OP does not clip; negatives make the metric non-finite, which is a FAILED run — never a perfect 0.0.
+    # Open Problems does not clip negative values; non-finite metrics should fail the run.
     assert result["passed"] is False
     assert any("non-finite" in v for v in result["violations"])
 
@@ -121,8 +119,7 @@ def test_denoising_closer_matrix_scores_better(tmp_path: Path) -> None:
 
 @pytest.mark.external_data
 def test_denoising_reproduces_op_golden_poisson(tmp_path: Path) -> None:
-    """Our denoising scorer must reproduce OP's shipped golden poisson (0.3113 on cxg_immune_cell_atlas),
-    mirroring task_denoising/src/metrics/{mse,poisson} in plain numpy."""
+    """The denoising scorer reproduces Open Problems' published poisson score for cxg_immune_cell_atlas."""
     import shutil
 
     pack = Path("benchmark_packs/op_denoising_mini")
@@ -142,9 +139,11 @@ def test_denoising_reproduces_op_golden_poisson(tmp_path: Path) -> None:
 
 @pytest.mark.external_data
 def test_dimred_reproduces_op_trustworthiness(tmp_path: Path) -> None:
-    """Our dimred scorer must reproduce OP's exact trustworthiness call (sklearn, n_neighbors=15,
-    high-dim = solution.layers['normalized']). 0.5993 on cxg_mouse_pancreas_atlas — faithful-by-
-    construction (OP's exact call; the vendored golden recorded NMI/ARI, which need leidenalg)."""
+    """The dimensionality-reduction scorer reproduces Open Problems' trustworthiness score.
+
+    The comparison uses sklearn trustworthiness with ``n_neighbors=15`` and
+    ``solution.layers['normalized']`` as the high-dimensional representation.
+    """
     import shutil
 
     pack = Path("benchmark_packs/op_dimensionality_reduction_mini")

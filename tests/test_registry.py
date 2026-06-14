@@ -1,8 +1,8 @@
-"""Task registry: the single source of truth that replaced ~15 task_type dispatch sites.
+"""Task registry invariants.
 
 Pins the record contents (so a wrong FileSpec or a missing record is caught) and the dispatch helpers.
 The characterization suite proves the scorers themselves enforce these required fields; here we pin that
-the registry's FileSpecs match what each scorer expects (drift guard) and that lookup/aliases behave.
+the registry's FileSpecs match what each scorer expects and that lookup/aliases behave.
 """
 
 from __future__ import annotations
@@ -19,14 +19,10 @@ ALL_TASK_TYPES = {
     "rare_celltype",
 }
 
-# Full-dataset / derived variants registered outside the canonical auto-discovered set. label_projection_dkd
-# is built from a hand-built discovery dict (the full cellxgene_census/dkd dataset) by
-# scripts/build_label_projection_dkd_pack.py, so it is not OP-adapter-discovered and is excluded from the
-# canonical per-task invariant checks below (which parametrize over ALL_TASK_TYPES).
+# Full-dataset and derived variants are registered separately from the canonical auto-discovered tasks.
 VARIANT_TASK_TYPES = {"label_projection_dkd", "denoising_immune"}
 
-# The output contract each scorer enforces — the drift guard. If a scorer's required-field check and this
-# table disagree, one of them changed without the other.
+# The output contract each scorer enforces.
 EXPECTED_OUTPUT_REQUIRED = {
     "label_projection": {"obs": ["label_pred"], "uns": ["method_id"]},
     "spatially_variable_genes": {"var": ["pred_spatial_var_score"], "uns": ["method_id"]},
@@ -54,7 +50,7 @@ def test_record_invariants(task_type: str) -> None:
     assert record.task_type == task_type
     assert record.task_id and record.title
     assert callable(record.scorer)  # opaque callable
-    # every output declares method_id + matches the scorer's enforced contract (drift guard)
+    # Every output declares method_id and matches the scorer's enforced contract.
     assert record.output.required == EXPECTED_OUTPUT_REQUIRED[task_type]
     assert "method_id" in record.output.required.get("uns", [])
     assert record.solution.filename == "solution.h5ad"
@@ -95,8 +91,7 @@ def test_alias_resolution_and_unknown() -> None:
 
 
 def test_registry_holds_scorers_as_opaque_callables() -> None:
-    # Architectural invariant: the registry must not carry a metric-iteration / slot-reading surface.
-    # A TaskRecord exposes a single `scorer` callable and no `metrics`/`fn` list.
+    # A TaskRecord exposes one scorer callable rather than a generic metric list.
     record = get("label_projection")
     assert not hasattr(record, "metrics")
     assert not hasattr(record, "metric_fns")

@@ -1,17 +1,15 @@
-"""Characterization (golden-master) harness — snapshot each scorer's FULL result dict per branch.
+"""Characterization harness for scorer result snapshots.
 
-A golden-master safety net for the scorers. The regular scorer tests assert a few substrings; this pins
-the ENTIRE normalized result_dict (every metric key+value, violations in order, warnings, passed,
-safety_gate_passed, final_score) for every return path in every scorer, so any unintended change in
-observable behavior fails a snapshot diff.
+The snapshots capture the normalized result dictionary for each scorer outcome: metric values,
+violations in order, warnings, pass/fail flags, safety-gate status, and final score.
 
 A "case" is one branch: a build() that constructs a (benchmark_dir, run_dir) triggering exactly that
 return path, plus the scorer to run. Cases live in ``cases_<scorer>.py`` next to this file; the pytest
 entry is ``tests/test_characterization.py``.
 
-Regenerate snapshots after an INTENTIONAL behavior change:
+Regenerate snapshots after an intentional behavior change:
     BIOPULSE_UPDATE_SNAPSHOTS=1 python -m pytest tests/test_characterization.py -q
-Then eyeball the diff before committing — an unexpected snapshot change is a real regression.
+Then review the diff before committing.
 """
 
 from __future__ import annotations
@@ -27,13 +25,13 @@ SNAP_DIR = Path(__file__).parent / "snapshots"
 
 @dataclass
 class Case:
-    name: str  # unique, stable -> snapshot filename (convention: "<scorer>__<branch>")
+    name: str  # unique, stable snapshot filename
     scorer: Callable[..., dict]  # the scorer's score() function
     build: Callable[[Path], Tuple[Path, Path]]  # (tmp_path) -> (benchmark_dir, run_dir)
 
 
 def _round(value):
-    # bool is an int subclass — keep it a bool, don't coerce to 0.0/1.0
+    # bool is an int subclass; keep it as a bool for snapshot readability.
     if isinstance(value, bool):
         return value
     if isinstance(value, (int, float)):
@@ -43,8 +41,7 @@ def _round(value):
 
 def normalize_result(result: dict) -> dict:
     """Deterministic, platform-stable view of a result dict: drop the per-run id + timestamp, round
-    every float (final_score + each metric) to 6 dp, sort metric keys. violations/warnings KEEP their
-    order — order is part of the scorer contract — and task_id stays (deterministic per fixture)."""
+    every float to 6 decimal places, sort metric keys, and preserve violation/warning order."""
     snapshot = dict(result)
     snapshot.pop("run_id", None)
     snapshot.pop("scored_at_utc", None)

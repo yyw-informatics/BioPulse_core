@@ -1,4 +1,4 @@
-"""Characterization snapshots — golden-master coverage of every scorer branch.
+"""Characterization snapshots for scorer behavior.
 
 See ``tests/characterization/charsnap.py`` for the harness. Each scorer contributes a ``cases_*.py``
 module defining ``CASES: list[Case]``; this entry runs them all against committed snapshots.
@@ -15,8 +15,7 @@ import pytest
 pytest.importorskip("anndata")
 pytest.importorskip("numpy")
 
-# The harness + case modules live in tests/characterization/ and import each other as top-level
-# modules; put that dir on sys.path (at front, so they win) rather than making tests/ a package.
+# Characterization case modules import their shared harness as a top-level module.
 HERE = Path(__file__).parent / "characterization"
 sys.path.insert(0, str(HERE))
 
@@ -46,8 +45,7 @@ ALL_CASES = _load_cases()
 
 
 def test_all_case_modules_present() -> None:
-    """Every scorer must contribute a case module — guards against a silently-missing file that would
-    quietly shrink coverage (the snapshot suite would still go green with a hole in it)."""
+    """Every scorer must contribute a characterization case module."""
     missing = []
     for module_name in CASE_MODULES:
         try:

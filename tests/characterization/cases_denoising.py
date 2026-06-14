@@ -1,9 +1,8 @@
-"""Characterization cases for the denoising scorer — one per return branch.
+"""Characterization cases for the denoising scorer.
 
-Sibling of ``cases_label_projection.py``: each build(tmp) constructs a minimal
-(benchmark_dir, run_dir) that triggers exactly one return path in denoising_score.score.
-Fixtures are deterministic (fixed counts, fixed obs/var names, no RNG) so the snapshots are
-stable.
+Each case constructs a minimal ``(benchmark_dir, run_dir)`` pair for one observable scorer outcome.
+Fixtures are deterministic, with fixed counts and fixed observation/variable names, so snapshots remain
+stable across platforms.
 
 Required output for this scorer: ``outputs/denoised.h5ad`` with layers['denoised'] + uns['method_id'].
 The hidden solution is ``hidden/ground_truth/solution.h5ad`` with layers['counts']; the OP poisson
@@ -21,8 +20,6 @@ import numpy as np
 from charsnap import Case
 
 from biopulse.scorers.denoising_score import score
-
-# --- builders ---------------------------------------------------------------------------------------
 
 
 def _pack(tmp: Path) -> Path:
@@ -95,18 +92,13 @@ _OBS = ["c0", "c1"]
 _VAR = ["g0", "g1", "g2"]
 
 
-# --- branches ---------------------------------------------------------------------------------------
-
-
 def _missing_output(tmp: Path):
-    # return @ line 51: outputs/denoised.h5ad does not exist
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR)
     return pack, _run(tmp)  # no denoised.h5ad written
 
 
 def _missing_solution(tmp: Path):
-    # return @ line 55: hidden/ground_truth/solution.h5ad does not exist
     pack = _pack(tmp)
     run = _run(tmp)
     _write_pred(run, _DENOISED, obs_names=_OBS, var_names=_VAR)
@@ -114,7 +106,6 @@ def _missing_solution(tmp: Path):
 
 
 def _missing_denoised_layer(tmp: Path):
-    # return @ line 93 (schema_valid=0): prediction has no layers['denoised']
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR)
     run = _run(tmp)
@@ -123,7 +114,6 @@ def _missing_denoised_layer(tmp: Path):
 
 
 def _missing_method_id(tmp: Path):
-    # return @ line 93 (schema_valid=0): prediction has no uns['method_id']
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR)
     run = _run(tmp)
@@ -132,7 +122,6 @@ def _missing_method_id(tmp: Path):
 
 
 def _solution_missing_counts(tmp: Path):
-    # return @ line 93 (schema_valid=0): solution has no layers['counts']
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR, with_counts=False)
     run = _run(tmp)
@@ -141,7 +130,6 @@ def _solution_missing_counts(tmp: Path):
 
 
 def _shape_mismatch(tmp: Path):
-    # return @ line 93 (schema_valid=0): prediction shape != solution shape
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR)  # 2 x 3
     run = _run(tmp)
@@ -151,7 +139,6 @@ def _shape_mismatch(tmp: Path):
 
 
 def _names_mismatch(tmp: Path):
-    # return @ line 93 (schema_valid=0): same shape but reordered obs_names -> rejected
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR)
     run = _run(tmp)
@@ -160,8 +147,7 @@ def _names_mismatch(tmp: Path):
 
 
 def _nonfinite_metric(tmp: Path):
-    # return @ line 112: denoised full of negatives -> log1p non-finite -> FAILED run.
-    # normalize_total divides by the (negative) library sum then log1p(negative) -> NaN.
+    # Negative values exercise non-finite metric handling after normalization and log1p.
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR)
     run = _run(tmp)
@@ -175,7 +161,6 @@ def _nonfinite_metric(tmp: Path):
 
 
 def _happy_with_train_sum(tmp: Path):
-    # return @ line 120: valid schema, finite metrics, train_sum present -> mse + poisson both reported
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR, train_sum=18.0)
     run = _run(tmp)
@@ -184,7 +169,6 @@ def _happy_with_train_sum(tmp: Path):
 
 
 def _happy_without_train_sum(tmp: Path):
-    # return @ line 120: valid schema, finite metrics, train_sum absent -> mse only (poisson absent)
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR)  # no train_sum
     run = _run(tmp)
@@ -193,18 +177,16 @@ def _happy_without_train_sum(tmp: Path):
 
 
 def _safety_gate_triggered(tmp: Path):
-    # return @ line 120 path but passed=False: schema valid yet a smuggled solution.h5ad sits in the
-    # workspace -> safety gate fails with a "Forbidden ... in workspace" violation.
+    # A solution file in the workspace should be treated as a forbidden answer artifact.
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR, train_sum=18.0)
     run = _run(tmp)
     _write_pred(run, _DENOISED, obs_names=_OBS, var_names=_VAR)
-    (run / "workspace" / "solution.h5ad").write_bytes(b"")  # smuggled answer key
+    (run / "workspace" / "solution.h5ad").write_bytes(b"")  # forbidden answer artifact
     return pack, run
 
 
 def _report_missing(tmp: Path):
-    # return @ line 120 path: valid schema + finite metrics but no report.md -> report violation
     pack = _pack(tmp)
     _write_solution(pack, _COUNTS, obs_names=_OBS, var_names=_VAR, train_sum=18.0)
     run = _run(tmp, with_report=False)

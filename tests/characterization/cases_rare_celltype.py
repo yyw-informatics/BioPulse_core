@@ -175,7 +175,7 @@ def _safety_gate_triggered(tmp: Path):
     _write_solution(pack := _pack(tmp), true, names=names)
     run = _run(tmp)
     _write_pred(run, list(true), names=names)
-    (run / "workspace" / "solution.h5ad").write_bytes(b"")  # smuggled answer key
+    (run / "workspace" / "solution.h5ad").write_bytes(b"")  # forbidden answer artifact
     return pack, run
 
 

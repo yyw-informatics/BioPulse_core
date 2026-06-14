@@ -13,15 +13,13 @@ import shutil
 import sys
 from pathlib import Path
 
-# NOTE: rare_celltype is a BioPulse-derived task, NOT an official Open Problems benchmark. It reuses
-# OP's label-projection DATA + prediction format but applies a different framing + metric (macro-F1).
-# Its instruction / metric / labels are owned by the task registry (the single source of truth); this
-# script copies the label_projection pack's data, then overwrites the registry-owned text + config.
+# rare_celltype is a BioPulse-derived task. It reuses the label-projection data and prediction format,
+# then applies rare-cell-type framing, instructions, and macro-F1 metric configuration from the registry.
 
 
 def _task_yaml(record) -> str:
-    # Bulk derived from the registry record so title/source/is_openproblems never drift; data_source +
-    # the fixed source_dataset_id are rare-specific extras the OP template doesn't carry.
+    # Most task metadata comes from the registry record; data_source and source_dataset_id identify the
+    # source pack used for this derived benchmark.
     return (
         f"task_id: {record.task_id}\n"
         f"task_type: {record.task_type}\n"
@@ -54,8 +52,7 @@ def main(argv: list[str] | None = None) -> int:
     shutil.copytree(src, dst)
     (dst / "task.yaml").write_text(_task_yaml(record), encoding="utf-8")
     (dst / "public" / "instruction.md").write_text(record.instruction, encoding="utf-8")
-    # Overwrite the copied label_projection metric_config (primary_metric: accuracy) with rare's own
-    # (macro_f1) — the scorer grades on macro-F1, so the inherited 'accuracy' label was stale/wrong.
+    # Replace the copied label-projection metric config with the rare-cell-type macro-F1 config.
     (dst / "metrics" / "metric_config.yaml").write_text(record.metric_config, encoding="utf-8")
     print(f"Derived {dst} from {src}")
     return 0
